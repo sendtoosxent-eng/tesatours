@@ -1,0 +1,630 @@
+<!DOCTYPE html><html class="scroll-smooth" lang="en"><head>
+<meta charset="utf-8">
+<meta content="width=device-width, initial-scale=1.0" name="viewport">
+<title>Tesa Tours | Bespoke Travel Experiences</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet">
+<style>
+  .material-symbols-outlined { font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24; }
+  .glass-effect { backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); }
+
+  /* Chat widget hidden by default */
+  #tesa-chat-widget { display: none; }
+  #tesa-chat-widget.open { display: flex; }
+
+  /* Chat bubble animation */
+  @keyframes bubbleIn {
+    from { opacity: 0; transform: translateY(8px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+  .chat-bubble { animation: bubbleIn 0.3s ease both; }
+
+  /* Typing indicator */
+  @keyframes blink { 0%,80%,100%{opacity:0} 40%{opacity:1} }
+  .dot { width:7px; height:7px; border-radius:50%; background:#a0aec0; display:inline-block; animation: blink 1.2s infinite; }
+  .dot:nth-child(2){ animation-delay:.2s }
+  .dot:nth-child(3){ animation-delay:.4s }
+
+  /* Quick reply chips */
+  .chip {
+    display: inline-block; cursor: pointer;
+    background: #e8f0fe; color: #001e40;
+    border: 1.5px solid #a7c8ff; border-radius: 999px;
+    padding: 6px 14px; font-size: 13px; font-weight: 600;
+    margin: 3px; transition: all 0.18s;
+  }
+  .chip:hover { background: #001e40; color: #fff; border-color: #001e40; }
+</style>
+<script id="tailwind-config">
+  tailwind.config = {
+    darkMode: "class",
+    theme: {
+      extend: {
+        colors: {
+          "on-secondary-container": "#745c00","on-surface": "#1a1c1c","surface-container-lowest": "#ffffff",
+          "on-error-container": "#93000a","secondary-fixed-dim": "#e9c349","on-primary-fixed-variant": "#1f477b",
+          "on-primary": "#ffffff","primary-container": "#003366","surface-tint": "#3a5f94",
+          "surface-container-high": "#e8e8e8","surface": "#f9f9f9","on-primary-fixed": "#001b3c",
+          "on-secondary": "#ffffff","background": "#f9f9f9","surface-dim": "#dadada",
+          "on-tertiary-container": "#929cb1","on-secondary-fixed": "#241a00","inverse-on-surface": "#f0f1f1",
+          "tertiary-container": "#2a3445","inverse-surface": "#2f3131","primary": "#001e40",
+          "inverse-primary": "#a7c8ff","secondary-fixed": "#ffe088","on-error": "#ffffff","error": "#ba1a1a",
+          "tertiary-fixed-dim": "#bdc7dc","on-tertiary-fixed": "#121c2c","secondary": "#735c00",
+          "on-primary-container": "#799dd6","tertiary": "#151f2f","surface-container-low": "#f3f3f4",
+          "tertiary-fixed": "#d9e3f9","surface-bright": "#f9f9f9","surface-variant": "#e2e2e2",
+          "surface-container-highest": "#e2e2e2","outline-variant": "#c3c6d1","outline": "#737780",
+          "secondary-container": "#fed65b","error-container": "#ffdad6","surface-container": "#eeeeee",
+          "on-secondary-fixed-variant": "#574500","primary-fixed-dim": "#a7c8ff","primary-fixed": "#d5e3ff",
+          "on-tertiary": "#ffffff","on-surface-variant": "#43474f","on-tertiary-fixed-variant": "#3d4759",
+          "on-background": "#1a1c1c"
+        },
+        borderRadius: { DEFAULT: "0.125rem", lg: "0.25rem", xl: "0.5rem", full: "0.75rem" },
+        spacing: {
+          "margin-desktop": "40px","stack-sm": "8px","stack-md": "16px","base": "8px","stack-lg": "32px",
+          "margin-mobile": "16px","section-padding": "80px","container-max": "1280px","gutter": "24px"
+        },
+        fontFamily: {
+          "headline-lg-mobile": ["Montserrat"],"label-sm": ["Inter"],"headline-md": ["Montserrat"],
+          "body-lg": ["Inter"],"headline-display": ["Montserrat"],"headline-lg": ["Montserrat"],
+          "body-md": ["Inter"],"label-md": ["Inter"]
+        },
+        fontSize: {
+          "headline-lg-mobile": ["28px",{"lineHeight":"1.3","fontWeight":"700"}],
+          "label-sm": ["12px",{"lineHeight":"1.2","fontWeight":"500"}],
+          "headline-md": ["24px",{"lineHeight":"1.4","fontWeight":"600"}],
+          "body-lg": ["18px",{"lineHeight":"1.6","fontWeight":"400"}],
+          "headline-display": ["48px",{"lineHeight":"1.2","letterSpacing":"-0.02em","fontWeight":"700"}],
+          "headline-lg": ["32px",{"lineHeight":"1.3","fontWeight":"700"}],
+          "body-md": ["16px",{"lineHeight":"1.5","fontWeight":"400"}],
+          "label-md": ["14px",{"lineHeight":"1.2","letterSpacing":"0.05em","fontWeight":"600"}]
+        }
+      }
+    }
+  }
+</script>
+</head>
+<body class="bg-background text-on-surface font-body-md">
+
+<!-- ===================== HEADER ===================== -->
+<header class="bg-surface/80 backdrop-blur-md border-b border-outline-variant/30 shadow-sm fixed top-0 w-full z-50">
+<nav class="flex justify-between items-center w-full px-margin-desktop max-w-container-max mx-auto h-20">
+
+  <!-- LOGO with SVG Elephant Icon -->
+  <div class="flex items-center gap-3">
+    <!-- Elephant SVG Logo -->
+    <svg width="44" height="44" viewBox="0 0 44 44" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <circle cx="22" cy="22" r="22" fill="#001e40"/>
+      <!-- Body -->
+      <ellipse cx="22" cy="26" rx="10" ry="8" fill="#fed65b"/>
+      <!-- Head -->
+      <ellipse cx="22" cy="17" rx="7" ry="6.5" fill="#fed65b"/>
+      <!-- Left ear -->
+      <ellipse cx="13.5" cy="17" rx="4" ry="5" fill="#e9c349"/>
+      <!-- Right ear -->
+      <ellipse cx="30.5" cy="17" rx="4" ry="5" fill="#e9c349"/>
+      <!-- Trunk -->
+      <path d="M18 22 Q14 26 15 31 Q15.5 33 17 32 Q18 31 17.5 29 Q17 27 19 24" stroke="#001e40" stroke-width="2.2" fill="none" stroke-linecap="round"/>
+      <!-- Left eye -->
+      <circle cx="19.5" cy="16" r="1.2" fill="#001e40"/>
+      <!-- Right eye -->
+      <circle cx="24.5" cy="16" r="1.2" fill="#001e40"/>
+      <!-- Tusk -->
+      <path d="M19 21 Q16 23 15.5 26" stroke="#fff" stroke-width="1.5" fill="none" stroke-linecap="round"/>
+      <!-- Tail -->
+      <path d="M32 27 Q35 25 34 29" stroke="#001e40" stroke-width="1.5" fill="none" stroke-linecap="round"/>
+      <!-- Legs -->
+      <rect x="14" y="32" width="4" height="5" rx="2" fill="#e9c349"/>
+      <rect x="19" y="32" width="4" height="5" rx="2" fill="#e9c349"/>
+      <rect x="24" y="32" width="4" height="5" rx="2" fill="#e9c349"/>
+    </svg>
+    <div class="text-headline-md font-headline-md font-bold text-primary leading-none">
+      Tesa <span class="text-secondary">Tours</span>
+    </div>
+  </div>
+
+  <div class="hidden md:flex items-center gap-stack-lg">
+    <a class="text-primary border-b-2 border-secondary-container font-bold pb-1 font-label-md text-label-md" href="#home">Home</a>
+    <a class="text-on-surface-variant hover:text-primary transition-colors font-label-md text-label-md" href="#packages">Packages</a>
+    <a class="text-on-surface-variant hover:text-primary transition-colors font-label-md text-label-md" href="#about">About</a>
+    <a class="text-on-surface-variant hover:text-primary transition-colors font-label-md text-label-md" href="#testimonials">Testimonials</a>
+    <a class="text-on-surface-variant hover:text-primary transition-colors font-label-md text-label-md" href="#contact">Contact</a>
+  </div>
+  <button class="bg-secondary-container text-on-secondary-container px-6 py-3 rounded-lg font-label-md text-label-md hover:opacity-90 hover:scale-[1.02] transition-all active:scale-95 duration-150">Book Now</button>
+</nav>
+</header>
+
+<!-- ===================== HERO ===================== -->
+<section class="relative h-screen flex items-center justify-center overflow-hidden" id="home">
+  <img alt="Luxury travel background" class="absolute inset-0 w-full h-full object-cover"
+    src="https://lh3.googleusercontent.com/aida-public/AB6AXuAqK8wHF4Wp_xQfyM5NUHLCQjEszNNi1ba7UziN_hll_0O5-NBwvukmK6k_TWfPqn0EvbwpFHNRAl5V4ogCJAmvm6uIh-lrklTnUbOed0J4HIuyhwHKaHDLK3MZvOxR-9-X_UlTpCSwAL-qR9R9Ftf-ouHXoHi0Rnt3BUYpHgPLiDGvDVmo2iu41EE91AL6kgrfwbG7wtwpYpDWl1tWZ1_vYW8Af-OXW0TFaNT7cB3GCgTkAMt3pcd9yoHn8Mg0d-VAc-jaFiVFCZA_">
+  <div class="absolute inset-0 bg-primary/40"></div>
+  <div class="relative z-10 text-center px-margin-mobile max-w-4xl mx-auto">
+    <h1 class="font-headline-display text-headline-display text-white mb-stack-md leading-tight">Explore the World with Tesa Tours</h1>
+    <p class="font-body-lg text-body-lg text-white/90 mb-stack-lg max-w-2xl mx-auto">Bespoke travel experiences curated for the modern adventurer. Discover hidden gems with unparalleled luxury and professional guidance.</p>
+    <a class="inline-block bg-secondary-container text-on-secondary-container px-10 py-4 rounded-xl font-headline-md text-headline-md hover:opacity-90 hover:scale-[1.05] transition-all active:scale-95 shadow-xl" href="#contact">Get a Free Quote</a>
+  </div>
+</section>
+
+<!-- ===================== PACKAGES ===================== -->
+<section class="py-section-padding px-margin-mobile max-w-container-max mx-auto" id="packages">
+  <div class="text-center mb-16">
+    <h2 class="font-headline-lg text-headline-lg text-primary mb-4">Featured Packages</h2>
+    <div class="h-1 w-20 bg-secondary-container mx-auto"></div>
+  </div>
+  <div class="grid grid-cols-1 md:grid-cols-3 gap-gutter">
+    <div class="bg-surface-container-lowest rounded-xl overflow-hidden shadow-[0px_4px_20px_rgba(0,0,0,0.05)] hover:shadow-xl transition-all hover:-translate-y-2 group">
+      <div class="aspect-[3/2] overflow-hidden">
+        <img alt="Kenya Safari" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
+          src="https://lh3.googleusercontent.com/aida-public/AB6AXuCAtPskAW91rpAfz3tOK8qWZk7nhc1sLrl-9FYRiTD85V1U_DIZ2Gs-IkCiY-IPPNgiIQhd3XMnaHJ9c8JQlSB1a0LyjReL1ODN1Qh0eDFgHGlB4KAI71L09YGVIK_GqRe5DwwN2Aj_f9xo1uHDbP7ZgEmUe1HhBMD06u_PyestvpnA_LKY9jeYvXQ9NMhM9DdS7s7DYp6vVpkxGBK1XDD7YqnMoGFXHU4FAPiEoBpqo8pUeXa9JEA4Dll1hp23LAJK34NHZnAE5eJZ">
+      </div>
+      <div class="p-stack-lg relative">
+        <h3 class="font-headline-md text-headline-md text-primary mb-2">Kenya Safari</h3>
+        <p class="font-body-md text-on-surface-variant mb-6 leading-relaxed">Experience the Great Migration in the heart of the Maasai Mara with private guides.</p>
+        <div class="flex justify-between items-center mt-auto">
+          <span class="text-primary font-bold text-headline-md">$3,450<span class="text-label-sm font-normal text-on-surface-variant">/pp</span></span>
+          <button class="bg-primary text-white px-4 py-2 rounded-lg font-label-md text-label-md hover:bg-primary-container transition-colors">Book This Tour</button>
+        </div>
+      </div>
+    </div>
+    <div class="bg-surface-container-lowest rounded-xl overflow-hidden shadow-[0px_4px_20px_rgba(0,0,0,0.05)] hover:shadow-xl transition-all hover:-translate-y-2 group">
+      <div class="aspect-[3/2] overflow-hidden">
+        <img alt="Paris Elegance" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
+          src="https://lh3.googleusercontent.com/aida-public/AB6AXuCv4mKry2UKsy_lv6VRN5hM5ogkTsX7NJt23YhrRsOOgIXIxMLjXddHT1BIVxUVXnLpAVmh6iz2y63zJVP5uLZ_Xd3WUHx-jqOIE55BqcaljU0kt99aYqlIaEvLQZZmMXFHfaKb0oAm_aCqnMntEVvhS_-UJb6R6sMc3iz31Fjq5VZfQREnTpN3cRpHc1z9dhF0AR80nglgpWzyitlifnPVoWAzFaTTOduPPvyolkjpNZipzsm1JlvTc4IYSwkiKCBE-LZK8BaNBn1U">
+      </div>
+      <div class="p-stack-lg">
+        <h3 class="font-headline-md text-headline-md text-primary mb-2">Paris Elegance</h3>
+        <p class="font-body-md text-on-surface-variant mb-6">A curated week of fashion, fine dining, and exclusive access to the Louvre galleries.</p>
+        <div class="flex justify-between items-center">
+          <span class="text-primary font-bold text-headline-md">$2,800<span class="text-label-sm font-normal text-on-surface-variant">/pp</span></span>
+          <button class="bg-primary text-white px-4 py-2 rounded-lg font-label-md text-label-md hover:bg-primary-container transition-colors">Book This Tour</button>
+        </div>
+      </div>
+    </div>
+    <div class="bg-surface-container-lowest rounded-xl overflow-hidden shadow-[0px_4px_20px_rgba(0,0,0,0.05)] hover:shadow-xl transition-all hover:-translate-y-2 group">
+      <div class="aspect-[3/2] overflow-hidden">
+        <img alt="Bali Retreat" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
+          src="https://lh3.googleusercontent.com/aida-public/AB6AXuAPgpVJmaBcImLQbMp-YAHPHDYDlagJbPZyViMtc6CrGJSohk1UFT3zsEAiCOIUGMJ1EpQ1ar5fvHUjAfm6MMsPApvQ_4OoGLEqGHBkZMtxp6z7EIGHqLl1dISuQ9WEBjaw0gh0UVHZgXRtXK-G1Xt_7RwuU-576aXE1ouxoURSzd2GUxOB21PmjdCvW3IYo1kYnJ2n78oD7mL3h7TIX00Jinynzr6sJhjrvaRuPMrLiA30PDRDoEmaHJ6sd7hO2JlPAxaz04chD-0J">
+      </div>
+      <div class="p-stack-lg">
+        <h3 class="font-headline-md text-headline-md text-primary mb-2">Bali Retreat</h3>
+        <p class="font-body-md text-on-surface-variant mb-6">Holistic wellness journey including private villa stays and traditional spa rituals.</p>
+        <div class="flex justify-between items-center">
+          <span class="text-primary font-bold text-headline-md">$1,950<span class="text-label-sm font-normal text-on-surface-variant">/pp</span></span>
+          <button class="bg-primary text-white px-4 py-2 rounded-lg font-label-md text-label-md hover:bg-primary-container transition-colors">Book This Tour</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===================== ABOUT ===================== -->
+<section class="py-section-padding bg-surface-container" id="about">
+  <div class="max-w-container-max mx-auto px-margin-mobile grid grid-cols-1 md:grid-cols-2 items-center gap-16">
+    <div class="order-2 md:order-1">
+      <h2 class="font-headline-lg text-headline-lg text-primary mb-stack-md">Crafting Unforgettable Memories</h2>
+      <p class="font-body-lg text-body-lg text-on-surface-variant mb-stack-lg leading-relaxed">With over a decade of expertise, Tesa Tours specializes in creating seamless journeys that transcend the ordinary. We believe that travel is not just about seeing new places, but about discovering new perspectives through meticulous planning and authentic connections.</p>
+      <div class="grid grid-cols-2 gap-stack-lg">
+        <div>
+          <span class="material-symbols-outlined text-secondary text-4xl mb-2">verified</span>
+          <h4 class="font-headline-md text-primary">Certified Expertise</h4>
+          <p class="text-on-surface-variant text-label-md">Globally recognized travel planners.</p>
+        </div>
+        <div>
+          <span class="material-symbols-outlined text-secondary text-4xl mb-2">support_agent</span>
+          <h4 class="font-headline-md text-primary">24/7 Support</h4>
+          <p class="text-on-surface-variant text-label-md">Dedicated assistance anywhere in the world.</p>
+        </div>
+      </div>
+    </div>
+    <div class="order-1 md:order-2">
+      <div class="relative rounded-2xl overflow-hidden shadow-2xl">
+        <img alt="About Tesa Tours" class="w-full h-[500px] object-cover"
+          src="https://lh3.googleusercontent.com/aida-public/AB6AXuBEQGWtKHeWlkc7vJgiZu-LHueVSqfFlV5Y8v8_x9KxhHRo_sT16bz2MRnfQp1YlWbZTdofT4unxelF1IeeOfd3-GRobS35uNRMpQ4D-d8oEJV3rJw2paRQ-i2ypUDSVKqqAdkp8TCrygS8jgLfGBFBcG9lpOJgNR_MrNlbJB5Mf-OoB_8oKsSR41alUyEzDRrwsGdb7XDArX4aW9OrEfbMWqxZce3HUnVDas8uJXqdLu0UXO7_bhQgBZb8Rj0t5SoDtHaZff2FPWi9">
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===================== TESTIMONIALS ===================== -->
+<section class="py-section-padding px-margin-mobile max-w-container-max mx-auto" id="testimonials">
+  <div class="text-center mb-16">
+    <h2 class="font-headline-lg text-headline-lg text-primary mb-4">Customer Stories</h2>
+    <div class="h-1 w-20 bg-secondary-container mx-auto"></div>
+  </div>
+  <div class="grid grid-cols-1 md:grid-cols-3 gap-gutter">
+    <div class="p-stack-lg bg-surface border border-outline-variant/30 rounded-xl">
+      <div class="flex text-secondary mb-4">
+        <span class="material-symbols-outlined" style="font-variation-settings:'FILL' 1;">star</span>
+        <span class="material-symbols-outlined" style="font-variation-settings:'FILL' 1;">star</span>
+        <span class="material-symbols-outlined" style="font-variation-settings:'FILL' 1;">star</span>
+        <span class="material-symbols-outlined" style="font-variation-settings:'FILL' 1;">star</span>
+        <span class="material-symbols-outlined" style="font-variation-settings:'FILL' 1;">star</span>
+      </div>
+      <p class="font-body-md text-on-surface-variant italic mb-6">"Tesa Tours transformed our honeymoon into a dream. Every detail was perfect, from the airport transfers to the private dinners under the stars."</p>
+      <div class="flex items-center gap-stack-md">
+        <div class="w-12 h-12 rounded-full bg-primary-container flex items-center justify-center text-white font-bold">SM</div>
+        <div><h5 class="font-label-md text-primary">Sarah Mitchell</h5><p class="text-label-sm text-on-surface-variant">London, UK</p></div>
+      </div>
+    </div>
+    <div class="p-stack-lg bg-surface border border-outline-variant/30 rounded-xl shadow-md">
+      <div class="flex text-secondary mb-4">
+        <span class="material-symbols-outlined" style="font-variation-settings:'FILL' 1;">star</span>
+        <span class="material-symbols-outlined" style="font-variation-settings:'FILL' 1;">star</span>
+        <span class="material-symbols-outlined" style="font-variation-settings:'FILL' 1;">star</span>
+        <span class="material-symbols-outlined" style="font-variation-settings:'FILL' 1;">star</span>
+        <span class="material-symbols-outlined" style="font-variation-settings:'FILL' 1;">star</span>
+      </div>
+      <p class="font-body-md text-on-surface-variant italic mb-6">"The Kenya Safari was life-changing. Our guide was incredibly knowledgeable and the luxury camps were beyond expectations. Highly recommend!"</p>
+      <div class="flex items-center gap-stack-md">
+        <div class="w-12 h-12 rounded-full bg-primary-container flex items-center justify-center text-white font-bold">JR</div>
+        <div><h5 class="font-label-md text-primary">James Robertson</h5><p class="text-label-sm text-on-surface-variant">New York, USA</p></div>
+      </div>
+    </div>
+    <div class="p-stack-lg bg-surface border border-outline-variant/30 rounded-xl">
+      <div class="flex text-secondary mb-4">
+        <span class="material-symbols-outlined" style="font-variation-settings:'FILL' 1;">star</span>
+        <span class="material-symbols-outlined" style="font-variation-settings:'FILL' 1;">star</span>
+        <span class="material-symbols-outlined" style="font-variation-settings:'FILL' 1;">star</span>
+        <span class="material-symbols-outlined" style="font-variation-settings:'FILL' 1;">star</span>
+        <span class="material-symbols-outlined" style="font-variation-settings:'FILL' 1;">star</span>
+      </div>
+      <p class="font-body-md text-on-surface-variant italic mb-6">"Professional, reliable, and truly bespoke. They handled all the logistics of our group Bali trip flawlessly. We'll be booking again soon."</p>
+      <div class="flex items-center gap-stack-md">
+        <div class="w-12 h-12 rounded-full bg-primary-container flex items-center justify-center text-white font-bold">EK</div>
+        <div><h5 class="font-label-md text-primary">Elena Kuznetsova</h5><p class="text-label-sm text-on-surface-variant">Dubai, UAE</p></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===================== CONTACT ===================== -->
+<section class="py-section-padding bg-primary relative" id="contact">
+  <div class="absolute inset-0 opacity-10">
+    <svg class="w-full h-full" preserveAspectRatio="none" viewBox="0 0 100 100">
+      <path d="M0 100 C 20 0 50 0 100 100 Z" fill="currentColor"></path>
+    </svg>
+  </div>
+  <div class="max-w-3xl mx-auto px-margin-mobile relative z-10">
+    <div class="bg-surface p-stack-lg md:p-12 rounded-2xl shadow-2xl">
+      <div class="text-center mb-10">
+        <h2 class="font-headline-lg text-headline-lg text-primary mb-2">Start Your Journey</h2>
+        <p class="text-on-surface-variant">Tell us where you want to go and we'll handle the rest.</p>
+      </div>
+      <form class="space-y-stack-md" id="inquiryForm">
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-stack-md">
+          <div class="space-y-2">
+            <label class="block font-label-md text-label-md text-primary">Full Name</label>
+            <input class="w-full px-4 py-3 border border-outline-variant rounded-lg focus:ring-2 focus:ring-primary focus:border-primary transition-all outline-none bg-surface-container-low" placeholder="John Doe" type="text">
+          </div>
+          <div class="space-y-2">
+            <label class="block font-label-md text-label-md text-primary">Email Address</label>
+            <input class="w-full px-4 py-3 border border-outline-variant rounded-lg focus:ring-2 focus:ring-primary focus:border-primary transition-all outline-none bg-surface-container-low" placeholder="john@example.com" type="email">
+          </div>
+        </div>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-stack-md">
+          <div class="space-y-2">
+            <label class="block font-label-md text-label-md text-primary">Phone Number</label>
+            <input class="w-full px-4 py-3 border border-outline-variant rounded-lg focus:ring-2 focus:ring-primary focus:border-primary transition-all outline-none bg-surface-container-low" placeholder="+1 (555) 000-0000" type="tel">
+          </div>
+          <div class="space-y-2">
+            <label class="block font-label-md text-label-md text-primary">Preferred Destination</label>
+            <select class="w-full px-4 py-3 border border-outline-variant rounded-lg focus:ring-2 focus:ring-primary focus:border-primary transition-all outline-none bg-surface-container-low appearance-none">
+              <option>Kenya Safari</option>
+              <option>Paris Elegance</option>
+              <option>Bali Retreat</option>
+              <option>Custom Destination</option>
+            </select>
+          </div>
+        </div>
+        <div class="space-y-2">
+          <label class="block font-label-md text-label-md text-primary">Travel Dates</label>
+          <input class="w-full px-4 py-3 border border-outline-variant rounded-lg focus:ring-2 focus:ring-primary focus:border-primary transition-all outline-none bg-surface-container-low" placeholder="Select dates or timeframe" type="text">
+        </div>
+        <button class="w-full bg-secondary-container text-on-secondary-container py-4 rounded-xl font-headline-md text-headline-md hover:opacity-95 transition-all shadow-lg mt-4 active:scale-[0.98]" type="submit">Send My Inquiry</button>
+      </form>
+    </div>
+  </div>
+</section>
+
+<!-- ===================== CHAT WIDGET ===================== -->
+<div id="tesa-chat-widget" class="fixed bottom-28 right-8 z-[110] w-80 md:w-96 font-body-md shadow-2xl rounded-2xl overflow-hidden border border-outline-variant/30 flex-col bg-surface">
+  <!-- Header -->
+  <div class="bg-primary p-4 flex items-center justify-between">
+    <div class="flex items-center gap-3">
+      <div class="relative w-10 h-10 rounded-full bg-secondary-container flex items-center justify-center border-2 border-secondary-container">
+        <!-- Mini elephant in header -->
+        <svg width="24" height="24" viewBox="0 0 44 44" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <ellipse cx="22" cy="26" rx="10" ry="8" fill="#001e40"/>
+          <ellipse cx="22" cy="17" rx="7" ry="6.5" fill="#001e40"/>
+          <ellipse cx="13.5" cy="17" rx="4" ry="5" fill="#001b3c"/>
+          <ellipse cx="30.5" cy="17" rx="4" ry="5" fill="#001b3c"/>
+          <path d="M18 22 Q14 26 15 31 Q15.5 33 17 32 Q18 31 17.5 29 Q17 27 19 24" stroke="#fed65b" stroke-width="2.5" fill="none" stroke-linecap="round"/>
+          <circle cx="19.5" cy="16" r="1.2" fill="#fed65b"/>
+          <circle cx="24.5" cy="16" r="1.2" fill="#fed65b"/>
+        </svg>
+        <span class="absolute bottom-0 right-0 w-3 h-3 bg-green-400 border-2 border-primary rounded-full"></span>
+      </div>
+      <div>
+        <h4 class="text-white font-bold text-sm leading-tight">Tesa Support</h4>
+        <p class="text-green-300 text-[10px] uppercase tracking-wider font-bold">● Online</p>
+      </div>
+    </div>
+    <button id="chat-close-btn" class="text-white/70 hover:text-white transition-colors">
+      <span class="material-symbols-outlined text-xl">close</span>
+    </button>
+  </div>
+
+  <!-- Messages area -->
+  <div id="chat-messages" class="p-4 flex-grow bg-surface-container-lowest overflow-y-auto" style="min-height:300px; max-height:360px;"></div>
+
+  <!-- Input area -->
+  <div class="p-4 bg-surface border-t border-outline-variant/20">
+    <div class="relative">
+      <input id="chat-input" type="text" placeholder="Type a message..." 
+        class="w-full pl-4 pr-12 py-3 bg-surface-container-low border border-outline-variant/30 rounded-xl focus:ring-2 focus:ring-primary focus:border-primary outline-none text-sm">
+      <button id="chat-send-btn" class="absolute right-2 top-1/2 -translate-y-1/2 text-primary hover:text-primary-container p-2 transition-colors">
+        <span class="material-symbols-outlined">send</span>
+      </button>
+    </div>
+  </div>
+</div>
+
+<!-- Chat Toggle Button -->
+<button id="tesa-chat-toggle" class="fixed bottom-8 right-28 z-[100] h-14 px-5 bg-primary text-white rounded-full flex items-center gap-2 shadow-2xl hover:scale-105 transition-transform active:scale-95 border-2 border-secondary-container/30">
+  <span class="material-symbols-outlined text-secondary-fixed">chat</span>
+  <span class="font-label-md hidden md:inline text-sm">Chat with us</span>
+</button>
+
+<!-- WhatsApp Button -->
+<a class="fixed bottom-8 right-8 z-[100] w-14 h-14 bg-[#25D366] rounded-full flex items-center justify-center shadow-2xl hover:scale-110 transition-transform active:scale-95 group border-2 border-white/20" href="#" target="_blank">
+  <svg fill="white" height="28" viewBox="0 0 24 24" width="28" xmlns="http://www.w3.org/2000/svg">
+    <path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.588-5.946 0-6.556 5.332-11.891 11.893-11.891 3.181 0 6.167 1.24 8.413 3.488 2.245 2.248 3.481 5.236 3.481 8.403 0 6.556-5.332 11.892-11.893 11.892-1.99 0-3.93-.494-5.644-1.428l-6.349 1.646zm6.363-20.332c-2.182 2.184-3.382 5.086-3.382 8.172 0 2.039.527 4.017 1.525 5.795l.163.289-1.07 3.905 3.993-1.034.279.165c1.684.997 3.618 1.523 5.6 1.523 5.733 0 10.4-4.664 10.403-10.395 0-2.774-1.082-5.383-3.046-7.348-1.964-1.964-4.577-3.046-7.354-3.046-5.734 0-10.403 4.664-10.403 10.395.001 2.232.682 4.412 1.968 6.242l-2.004 7.321 7.49-1.942c1.777.96 3.782 1.467 5.82 1.468 6.552 0 11.89-5.338 11.893-11.891.001-3.175-1.239-6.16-3.483-8.405-2.244-2.245-5.228-3.484-8.403-3.484-6.557 0-11.893 5.338-11.893 11.893z"/>
+  </svg>
+  <span class="absolute right-16 bg-white text-on-surface px-3 py-1.5 rounded-lg shadow-lg opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap pointer-events-none font-label-md text-sm">Chat on WhatsApp</span>
+</a>
+
+<!-- ===================== FOOTER ===================== -->
+<footer class="bg-tertiary py-section-padding">
+  <div class="grid grid-cols-1 md:grid-cols-4 gap-gutter px-margin-desktop max-w-container-max mx-auto">
+    <div class="col-span-1">
+      <div class="flex items-center gap-2 mb-4">
+        <svg width="32" height="32" viewBox="0 0 44 44" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <circle cx="22" cy="22" r="22" fill="#fed65b"/>
+          <ellipse cx="22" cy="26" rx="10" ry="8" fill="#001e40"/>
+          <ellipse cx="22" cy="17" rx="7" ry="6.5" fill="#001e40"/>
+          <ellipse cx="13.5" cy="17" rx="4" ry="5" fill="#001b3c"/>
+          <ellipse cx="30.5" cy="17" rx="4" ry="5" fill="#001b3c"/>
+          <path d="M18 22 Q14 26 15 31 Q15.5 33 17 32 Q18 31 17.5 29 Q17 27 19 24" stroke="#fed65b" stroke-width="2.2" fill="none" stroke-linecap="round"/>
+          <circle cx="19.5" cy="16" r="1.2" fill="#fed65b"/>
+          <circle cx="24.5" cy="16" r="1.2" fill="#fed65b"/>
+          <rect x="14" y="32" width="4" height="5" rx="2" fill="#1a3a5c"/>
+          <rect x="19" y="32" width="4" height="5" rx="2" fill="#1a3a5c"/>
+          <rect x="24" y="32" width="4" height="5" rx="2" fill="#1a3a5c"/>
+        </svg>
+        <div class="text-tertiary-fixed font-bold text-lg font-headline-md">Tesa Tours</div>
+      </div>
+      <p class="text-outline-variant font-body-md mb-6 leading-relaxed">Defining the future of luxury travel through bespoke curation and unparalleled expertise.</p>
+    </div>
+    <div>
+      <h4 class="text-tertiary-fixed font-bold mb-4 font-label-md">Explore</h4>
+      <ul class="space-y-3">
+        <li><a class="text-outline-variant hover:text-tertiary-fixed transition-colors text-label-md" href="#">Safari Packages</a></li>
+        <li><a class="text-outline-variant hover:text-tertiary-fixed transition-colors text-label-md" href="#">European Escapes</a></li>
+        <li><a class="text-outline-variant hover:text-tertiary-fixed transition-colors text-label-md" href="#">Island Retreats</a></li>
+        <li><a class="text-outline-variant hover:text-tertiary-fixed transition-colors text-label-md" href="#">Custom Itineraries</a></li>
+      </ul>
+    </div>
+    <div>
+      <h4 class="text-tertiary-fixed font-bold mb-4 font-label-md">Company</h4>
+      <ul class="space-y-3">
+        <li><a class="text-outline-variant hover:text-tertiary-fixed transition-colors text-label-md" href="#">Privacy Policy</a></li>
+        <li><a class="text-outline-variant hover:text-tertiary-fixed transition-colors text-label-md" href="#">Terms of Service</a></li>
+        <li><a class="text-outline-variant hover:text-tertiary-fixed transition-colors text-label-md" href="#">FAQ</a></li>
+        <li><a class="text-outline-variant hover:text-tertiary-fixed transition-colors text-label-md" href="#">Careers</a></li>
+      </ul>
+    </div>
+    <div>
+      <h4 class="text-tertiary-fixed font-bold mb-4 font-label-md">Stay Connected</h4>
+      <div class="flex gap-4 mb-6">
+        <span class="material-symbols-outlined text-tertiary-fixed cursor-pointer hover:text-secondary-fixed transition-colors">public</span>
+        <span class="material-symbols-outlined text-tertiary-fixed cursor-pointer hover:text-secondary-fixed transition-colors">photo_camera</span>
+        <span class="material-symbols-outlined text-tertiary-fixed cursor-pointer hover:text-secondary-fixed transition-colors">mail</span>
+      </div>
+      <p class="text-outline-variant text-label-sm">© 2024 Tesa Tours and Travel. All rights reserved.</p>
+    </div>
+  </div>
+</footer>
+
+<!-- ===================== SCRIPTS ===================== -->
+<script>
+// ---- Form submit ----
+document.getElementById('inquiryForm').addEventListener('submit', function(e) {
+  e.preventDefault();
+  const btn = this.querySelector('button[type="submit"]');
+  btn.innerText = 'Sending...';
+  btn.disabled = true;
+  setTimeout(() => {
+    btn.innerText = "Success! We'll contact you soon.";
+    btn.classList.remove('bg-secondary-container');
+    btn.classList.add('bg-green-600', 'text-white');
+    this.reset();
+  }, 1500);
+});
+
+// ---- Chat Widget ----
+const widget   = document.getElementById('tesa-chat-widget');
+const toggle   = document.getElementById('tesa-chat-toggle');
+const closeBtn = document.getElementById('chat-close-btn');
+const messages = document.getElementById('chat-messages');
+const input    = document.getElementById('chat-input');
+const sendBtn  = document.getElementById('chat-send-btn');
+
+let chatStarted = false;
+let step = 0;
+
+// Conversation flow: questions & quick-reply options
+const flow = [
+  {
+    bot: "👋 Hi there! Welcome to Tesa Tours. I'm here to help you plan your dream trip. What brings you here today?",
+    chips: ["Plan a trip", "Ask about packages", "Get a quote", "Something else"]
+  },
+  {
+    bot: "Great! Which destination are you most interested in?",
+    chips: ["🌍 Kenya Safari", "🗼 Paris Elegance", "🌴 Bali Retreat", "✈️ Custom destination"]
+  },
+  {
+    bot: "Wonderful choice! How many travellers will be joining?",
+    chips: ["Just me", "2 people", "3–5 people", "6+ people"]
+  },
+  {
+    bot: "When are you planning to travel?",
+    chips: ["Next month", "In 2–3 months", "In 6 months", "Not sure yet"]
+  },
+  {
+    bot: "Perfect! What's your approximate budget per person?",
+    chips: ["Under $1,000", "$1,000 – $2,000", "$2,000 – $3,500", "$3,500+"]
+  },
+  {
+    bot: "Thanks for sharing that! 🎉 One of our travel consultants will reach out to you shortly with a personalised itinerary.\n\nIn the meantime, feel free to browse our packages or send us a message on WhatsApp!",
+    chips: ["View packages", "Start over"]
+  }
+];
+
+function scrollToBottom() {
+  messages.scrollTop = messages.scrollHeight;
+}
+
+function addMessage(text, isUser = false) {
+  const wrap = document.createElement('div');
+  wrap.className = `flex gap-2 mb-3 chat-bubble ${isUser ? 'justify-end' : 'justify-start'}`;
+
+  if (!isUser) {
+    wrap.innerHTML = `
+      <div class="w-7 h-7 rounded-full bg-primary flex-shrink-0 flex items-center justify-center text-[9px] text-secondary-fixed font-bold mt-1">T</div>
+      <div class="bg-surface-container-low px-3 py-2 rounded-2xl rounded-tl-none shadow-sm max-w-[85%]">
+        <p class="text-sm text-on-surface whitespace-pre-wrap">${text}</p>
+      </div>`;
+  } else {
+    wrap.innerHTML = `
+      <div class="bg-primary px-3 py-2 rounded-2xl rounded-tr-none shadow-sm max-w-[85%]">
+        <p class="text-sm text-white">${text}</p>
+      </div>`;
+  }
+  messages.appendChild(wrap);
+  scrollToBottom();
+}
+
+function showTyping() {
+  const el = document.createElement('div');
+  el.id = 'typing-indicator';
+  el.className = 'flex gap-2 mb-3 justify-start chat-bubble';
+  el.innerHTML = `
+    <div class="w-7 h-7 rounded-full bg-primary flex-shrink-0 flex items-center justify-center text-[9px] text-secondary-fixed font-bold mt-1">T</div>
+    <div class="bg-surface-container-low px-4 py-3 rounded-2xl rounded-tl-none shadow-sm flex gap-1 items-center">
+      <span class="dot"></span><span class="dot"></span><span class="dot"></span>
+    </div>`;
+  messages.appendChild(el);
+  scrollToBottom();
+}
+
+function removeTyping() {
+  const t = document.getElementById('typing-indicator');
+  if (t) t.remove();
+}
+
+function showChips(chips) {
+  const el = document.createElement('div');
+  el.id = 'quick-chips';
+  el.className = 'mt-2 mb-2 chat-bubble';
+  el.innerHTML = chips.map(c => `<span class="chip" data-val="${c}">${c}</span>`).join('');
+  messages.appendChild(el);
+  scrollToBottom();
+
+  el.querySelectorAll('.chip').forEach(chip => {
+    chip.addEventListener('click', () => handleChip(chip.dataset.val));
+  });
+}
+
+function removeChips() {
+  const c = document.getElementById('quick-chips');
+  if (c) c.remove();
+}
+
+function handleChip(val) {
+  removeChips();
+  addMessage(val, true);
+
+  // Handle special last-step chips
+  if (val === 'View packages') {
+    document.querySelector('#packages').scrollIntoView({ behavior: 'smooth' });
+    setTimeout(() => closeChat(), 400);
+    return;
+  }
+  if (val === 'Start over') {
+    step = 0;
+    setTimeout(() => botRespond(), 600);
+    return;
+  }
+  step++;
+  setTimeout(() => botRespond(), 700);
+}
+
+function botRespond() {
+  if (step >= flow.length) return;
+  showTyping();
+  setTimeout(() => {
+    removeTyping();
+    addMessage(flow[step].bot);
+    showChips(flow[step].chips);
+  }, 900);
+}
+
+function openChat() {
+  widget.classList.add('open');
+  toggle.classList.add('scale-95');
+  if (!chatStarted) {
+    chatStarted = true;
+    setTimeout(() => botRespond(), 400);
+  }
+}
+
+function closeChat() {
+  widget.classList.remove('open');
+  toggle.classList.remove('scale-95');
+}
+
+toggle.addEventListener('click', () => {
+  widget.classList.contains('open') ? closeChat() : openChat();
+});
+closeBtn.addEventListener('click', closeChat);
+
+// Manual input send
+function sendUserMessage() {
+  const val = input.value.trim();
+  if (!val) return;
+  removeChips();
+  addMessage(val, true);
+  input.value = '';
+  step++;
+  setTimeout(() => botRespond(), 700);
+}
+sendBtn.addEventListener('click', sendUserMessage);
+input.addEventListener('keydown', e => { if (e.key === 'Enter') sendUserMessage(); });
+
+// ---- Scroll reveal ----
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      entry.target.classList.add('opacity-100', 'translate-y-0');
+      entry.target.classList.remove('opacity-0', 'translate-y-10');
+    }
+  });
+}, { threshold: 0.1 });
+
+document.querySelectorAll('section > div').forEach(el => {
+  el.classList.add('transition-all', 'duration-1000', 'opacity-0', 'translate-y-10');
+  observer.observe(el);
+});
+</script>
+</body></html>
