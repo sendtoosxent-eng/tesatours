@@ -35,6 +35,38 @@
     margin: 3px; transition: all 0.18s;
   }
   .chip:hover { background: #001e40; color: #fff; border-color: #001e40; }
+
+  /* WHATSAPP */
+  .whatsapp-btn {
+    position: fixed; bottom: 1.8rem; right: 1.8rem; z-index: 999;
+    width: 56px; height: 56px; border-radius: 50%;
+    background: #25D366;
+    display: flex; align-items: center; justify-content: center;
+    box-shadow: 0 4px 20px rgba(37,211,102,0.4);
+    text-decoration: none;
+    transition: transform 0.3s, box-shadow 0.3s;
+    animation: pulse 2.5s infinite;
+  }
+  .whatsapp-btn:hover { transform: scale(1.1); box-shadow: 0 8px 28px rgba(37,211,102,0.55); animation: none; }
+  .whatsapp-btn svg { width: 28px; height: 28px; fill: white; }
+
+  @keyframes pulse {
+    0%, 100% { box-shadow: 0 4px 20px rgba(37,211,102,0.4); }
+    50% { box-shadow: 0 4px 30px rgba(37,211,102,0.7), 0 0 0 8px rgba(37,211,102,0.12); }
+  }
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(28px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+.call-btn { display: inline-block; cursor: pointer;
+    background: #e8f0fe; color: #001e40;
+    border: 1.5px solid #a7c8ff; border-radius: 999px;
+    padding: 6px 14px; font-size: 13px; font-weight: 600;
+    margin: 3px; transition: all 0.18s;
+  }
+  .chip:hover { background: #001e40; color: #fff; border-color: #001e40; }
+
+
 </style>
 <script id="tailwind-config">
   tailwind.config = {
@@ -295,17 +327,17 @@
         <div class="grid grid-cols-1 md:grid-cols-2 gap-stack-md">
           <div class="space-y-2">
             <label class="block font-label-md text-label-md text-primary">Full Name</label>
-            <input class="w-full px-4 py-3 border border-outline-variant rounded-lg focus:ring-2 focus:ring-primary focus:border-primary transition-all outline-none bg-surface-container-low" placeholder="John Doe" type="text">
+            <input class="w-full px-4 py-3 border border-outline-variant rounded-lg focus:ring-2 focus:ring-primary focus:border-primary transition-all outline-none bg-surface-container-low" placeholder="Oscar Musisi Nsamba" type="text">
           </div>
           <div class="space-y-2">
             <label class="block font-label-md text-label-md text-primary">Email Address</label>
-            <input class="w-full px-4 py-3 border border-outline-variant rounded-lg focus:ring-2 focus:ring-primary focus:border-primary transition-all outline-none bg-surface-container-low" placeholder="john@example.com" type="email">
+            <input class="w-full px-4 py-3 border border-outline-variant rounded-lg focus:ring-2 focus:ring-primary focus:border-primary transition-all outline-none bg-surface-container-low" placeholder="oscar@spotnet.com" type="email">
           </div>
         </div>
         <div class="grid grid-cols-1 md:grid-cols-2 gap-stack-md">
           <div class="space-y-2">
             <label class="block font-label-md text-label-md text-primary">Phone Number</label>
-            <input class="w-full px-4 py-3 border border-outline-variant rounded-lg focus:ring-2 focus:ring-primary focus:border-primary transition-all outline-none bg-surface-container-low" placeholder="+1 (555) 000-0000" type="tel">
+            <input class="w-full px-4 py-3 border border-outline-variant rounded-lg focus:ring-2 focus:ring-primary focus:border-primary transition-all outline-none bg-surface-container-low" placeholder="+256 743946261" type="tel">
           </div>
           <div class="space-y-2">
             <label class="block font-label-md text-label-md text-primary">Preferred Destination</label>
@@ -376,13 +408,18 @@
   <span class="font-label-md hidden md:inline text-sm">Chat with us</span>
 </button>
 
-<!-- WhatsApp Button -->
-<a class="fixed bottom-8 right-8 z-[100] w-14 h-14 bg-[#25D366] rounded-full flex items-center justify-center shadow-2xl hover:scale-110 transition-transform active:scale-95 group border-2 border-white/20" href="#" target="_blank">
-  <svg fill="white" height="28" viewBox="0 0 24 24" width="28" xmlns="http://www.w3.org/2000/svg">
-    <path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.588-5.946 0-6.556 5.332-11.891 11.893-11.891 3.181 0 6.167 1.24 8.413 3.488 2.245 2.248 3.481 5.236 3.481 8.403 0 6.556-5.332 11.892-11.893 11.892-1.99 0-3.93-.494-5.644-1.428l-6.349 1.646zm6.363-20.332c-2.182 2.184-3.382 5.086-3.382 8.172 0 2.039.527 4.017 1.525 5.795l.163.289-1.07 3.905 3.993-1.034.279.165c1.684.997 3.618 1.523 5.6 1.523 5.733 0 10.4-4.664 10.403-10.395 0-2.774-1.082-5.383-3.046-7.348-1.964-1.964-4.577-3.046-7.354-3.046-5.734 0-10.403 4.664-10.403 10.395.001 2.232.682 4.412 1.968 6.242l-2.004 7.321 7.49-1.942c1.777.96 3.782 1.467 5.82 1.468 6.552 0 11.89-5.338 11.893-11.891.001-3.175-1.239-6.16-3.483-8.405-2.244-2.245-5.228-3.484-8.403-3.484-6.557 0-11.893 5.338-11.893 11.893z"/>
+<!-- WHATSAPP -->
+<a href="https://wa.me/256700123456?text=Hello%20Tesa%20Tours!%20I%27d%20like%20to%20inquire%20about%20a%20tour%20package." class="whatsapp-btn" target="_blank" title="Chat on WhatsApp">
+  <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+    <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/>
   </svg>
-  <span class="absolute right-16 bg-white text-on-surface px-3 py-1.5 rounded-lg shadow-lg opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap pointer-events-none font-label-md text-sm">Chat on WhatsApp</span>
 </a>
+<!-- ===================== CALL ===================== -->
+<!-- <div class="fixed bottom-8 right-28 z-[100]">
+  <a href="tel:+256700123456" class="call-btn bg-primary text-white rounded-full flex items-center justify-center shadow-2xl hover:scale-105 transition-transform active:scale-95 border-2 border-secondary-container/30" title="Call us">
+    <span class="material-symbols-outlined">phone</span>
+  </a>
+</div> -->
 
 <!-- ===================== FOOTER ===================== -->
 <footer class="bg-tertiary py-section-padding">
@@ -486,7 +523,7 @@ const flow = [
     chips: ["Under $1,000", "$1,000 – $2,000", "$2,000 – $3,500", "$3,500+"]
   },
   {
-    bot: "Thanks for sharing that! 🎉 One of our travel consultants will reach out to you shortly with a personalised itinerary.\n\nIn the meantime, feel free to browse our packages or send us a message on WhatsApp!",
+    bot: "Thanks for sharing that!  One of our travel consultants will reach out to you shortly with a personalised itinerary.\n\nIn the meantime, feel free to browse our packages or send us a message on WhatsApp!",
     chips: ["View packages", "Start over"]
   }
 ];
